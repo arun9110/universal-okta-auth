@@ -1,0 +1,37 @@
+{
+  "name": "universal-okta-auth",
+  "version": "1.0.0",
+  "description": "A lightweight, framework-agnostic JavaScript plugin for integrating Okta login in React, Angular, or any JS app",
+  "main": "dist/universal-okta-auth.umd.js",
+  "module": "dist/universal-okta-auth.esm.js",
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "prepare": "npm run build"
+  },
+  "author": "Arun gaddam",
+  "license": "MIT",
+  "keywords": [
+    "okta",
+    "auth",
+    "login",
+    "plugin",
+    "react",
+    "angular",
+    "javascript"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arun9110/universal-okta-auth.git"
+  },
+  "peerDependencies": {
+    "@okta/okta-auth-js": "^7.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "rollup": "^4.44.1",
+    "rollup-plugin-polyfill-node": "^0.13.0"
+  }
+}
