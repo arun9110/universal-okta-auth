@@ -1,5 +1,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import replace from '@rollup/plugin-replace';
 import polyfillNode from 'rollup-plugin-polyfill-node';
 
 export default {
@@ -10,26 +11,25 @@ export default {
             format: 'umd',
             name: 'UniversalOktaAuth',
             globals: {
-                crypto: 'crypto',
-                buffer: 'buffer',
-                process: 'process',
-                stream: 'Stream',
-                http: 'http',
-                url: 'Url',
-                zlib: 'zlib',
-                events: 'events',
-                punycode: 'punycode',
-                https: 'https',
-            },
+                '@okta/okta-auth-js': 'OktaAuth'
+            }
         },
         {
             file: 'dist/universal-okta-auth.esm.js',
-            format: 'esm'
-        }
+            format: 'esm',
+        },
     ],
-    plugins: [polyfillNode(), resolve({ preferBuiltins: false }), commonjs()],
-    external: [
-        'crypto', 'buffer', 'process', 'stream', 'http',
-        'url', 'https', 'zlib', 'events', 'punycode'
-    ]
+    plugins: [
+        replace({
+            'process.env.NODE_ENV': JSON.stringify('production'),
+            preventAssignment: true,
+        }),
+        polyfillNode(),
+        resolve({
+            browser: true,
+            preferBuiltins: false,
+        }),
+        commonjs(),
+    ],
+    external: ['@okta/okta-auth-js']
 };

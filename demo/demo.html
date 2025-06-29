@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>universal-okta-auth - Demo</title>
+  <script src="https://global.oktacdn.com/okta-auth-js/7.4.3/okta-auth-js.min.js"></script>
+  <script src="../dist/universal-okta-auth.umd.js"></script>
+</head>
+<body>
+  <h1>Universal Okta Auth UMD Test</h1>
+
+  <button id="loginBtn">Login</button>
+  <button id="logoutBtn">Logout</button>
+  <pre id="status"></pre>
+
+  <script>
+    const auth = new UniversalOktaAuth.UniversalOktaAuth({
+      issuer: 'https://dev-vwt4qnaix5tsky3b.us.auth0.com/oauth2/default', // e.g., https://dev-123456.okta.com/oauth2/default
+      clientId: 'E1CWlBBGDI4u3AaUfdHStQCh72WcQqrS',
+      redirectUri: window.location.origin + '/callback',
+      scopes: ['openid', 'profile', 'email'],
+    });
+
+    document.getElementById('loginBtn').onclick = () => {
+      auth.login();
+    };
+
+    document.getElementById('logoutBtn').onclick = () => {
+      auth.logout();
+    };
+
+    async function showStatus() {
+      const isLoggedIn = await auth.isAuthenticated();
+      document.getElementById('status').innerText = JSON.stringify({
+        authenticated: isLoggedIn,
+        idToken: await auth.getIdToken(),
+        accessToken: await auth.getAccessToken()
+      }, null, 2);
+    }
+
+    // Call on load to update UI
+    showStatus();
+  </script>
+</body>
+</html>

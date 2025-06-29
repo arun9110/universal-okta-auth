@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Okta Callback</title>
+  <script src="https://global.oktacdn.com/okta-auth-js/7.4.3/okta-auth-js.min.js"></script>
+  <script src="../dist/universal-okta-auth.umd.js"></script>
+</head>
+<body>
+  <h2>Processing login...</h2>
+  <pre id="status"></pre>
+
+  <script>
+    (async () => {
+      const auth = new UniversalOktaAuth.UniversalOktaAuth({
+        issuer: 'https://dev-vwt4qnaix5tsky3b.us.auth0.com/oauth2/default',
+        clientId: 'E1CWlBBGDI4u3AaUfdHStQCh72WcQqrS',
+        redirectUri: window.location.origin + '/demo/callback.html',
+        scopes: ['openid', 'profile', 'email'],
+      });
+
+      try {
+        await auth.handleRedirectCallback();
+        document.getElementById('status').innerText = 'Login successful! Redirecting...';
+        setTimeout(() => window.location.href = './demo.html', 1000);
+      } catch (e) {
+        console.error(e);
+        document.getElementById('status').innerText = 'Login failed: ' + e.message;
+      }
+    })();
+  </script>
+</body>
+</html>
